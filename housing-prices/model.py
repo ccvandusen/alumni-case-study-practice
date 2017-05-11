@@ -9,6 +9,16 @@ def import_data(filename):
     return df
 
 
+def dummify_variables(df, var_names):
+    '''
+    INPUT: pandas df from import_data fxn
+           list of column names to dummify
+    OUTPUT: pandas df with dummified variables from list
+    '''
+    for colname in var_names:
+        '{}_dummies'.format(colname) = pd.get_dummies(df['colname'])
+
+
 def print_summary(data):
     y = data['price']
     X = data.drop(['price', 'yr_renovated', 'zipcode',
