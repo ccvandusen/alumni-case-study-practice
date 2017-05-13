@@ -15,8 +15,7 @@ def dummify_variables(df, var_names):
            list of column names to dummify
     OUTPUT: pandas df with dummified variables from list
     '''
-    for colname in var_names:
-        '{}_dummies'.format(colname) = pd.get_dummies(df['colname'])
+    if 'grade' in var_names:
 
 
 def print_summary(data):
