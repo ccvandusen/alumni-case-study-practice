@@ -17,6 +17,8 @@ def dummify_variables(df, var_names):
     '''
     if 'grade' in var_names:
 
+    return df
+
 
 def print_summary(data):
     y = data['price']
