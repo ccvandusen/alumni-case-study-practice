@@ -16,7 +16,10 @@ def dummify_variables(df, var_names):
     OUTPUT: pandas df with dummified variables from list
     '''
     if 'grade' in var_names:
-
+        grade_dummies = pd.get_dummies(
+            pd.cut(df['grade'], bins=[0, 4, 7, 10, 13]))
+        grade_dummies.columns = ['low_grade',
+                                 'mid_grade', 'high_grade', 'higher_grade']
     return df
 
 
