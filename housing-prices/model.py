@@ -20,17 +20,24 @@ def dummify_variables(df, var_names):
             pd.cut(df['grade'], bins=[0, 4, 7, 10, 13]))
         grade_dummies.columns = ['low_grade',
                                  'mid_grade', 'high_grade', 'higher_grade']
-    return df
+
+    return df.join(grade_dummies).drop(['grade', 'low_grade'], axis=1)
 
 
-def print_summary(data):
-    y = data['price']
+def train_model(data, print_summary=False):
+    y = np.log(data['price'])
     X = data.drop(['price', 'yr_renovated', 'zipcode',
-                   'lat', 'long', 'id', 'date'], axis=1)
+                   'lat', 'long', 'id', 'date', 'sqft_living15',
+                   'sqft_lot15', 'sqft_above', 'sqft_basement', 'floors'], axis=1)
     model = sm.OLS(list(y), X)
     result = model.fit()
-    print result.summary()
+    if print_summary:
+        print result.summary()
+    else:
+        return result
+
 
 if __name__ == '__main__':
     df = import_data('data/kc_house_data.csv')
-    print_summary(df)
+    df = dummify_variables(df, ['grade'])
+    model = train_model(df)
