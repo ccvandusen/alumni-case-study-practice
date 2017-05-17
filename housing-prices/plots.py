@@ -34,16 +34,13 @@ def plot_size_change(df):
     plt.ylabel('price')
 
 
-def plot_residuals(df):
-    import ipdb
-    ipdb.set_trace()
-    model = mdl.train_model(df)
+def plot_residuals(df, columns):
+    model = mdl.train_model(df.iloc[0:500], columns=columns)
     residuals = model.outlier_test()['student_resid']
     plt.scatter(model.fittedvalues, residuals, 'o')
     plt.axhline(0, color='r')
     plt.xlabel('studentized residuals')
     plt.ylabel('predicted response')
-    plt.show()
 
 if __name__ == '__main__':
     housing_data = create_date_cols('data/kc_house_data.csv')
@@ -52,4 +49,4 @@ if __name__ == '__main__':
     # plt.xlabel('Month')
     # plt.ylabel('Number of Sales')
     # plt.show()
-    plot_residuals(housing_data)
+    plot_residuals(housing_data, ['sqft_lot', 'bathrooms'])
