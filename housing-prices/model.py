@@ -24,13 +24,12 @@ def dummify_variables(df, var_names):
     return df.join(grade_dummies).drop(['grade', 'low_grade'], axis=1)
 
 
-def train_model(data, columns='sqft_lot', print_summary=False):
+def train_model(data, dropped_columns='sqft_lot', print_summary=False):
     y = np.log(data['price'])
-    # X = data.drop(['price', 'yr_renovated', 'zipcode',
-    #                'lat', 'long', 'id', 'date', 'sqft_living15',
-    #                'sqft_lot15', 'sqft_above', 'sqft_basement', 'floors', 'sqft_living', 'sqft_lot'], axis=1)
-    X = data[columns]
-    model = sm.OLS(list(y), X)
+    X = data.drop(dropped_columns, axis=1)
+    #X = data[columns]
+    X = sm.add_constant(X)
+    model = sm.OLS(y, X)
     result = model.fit()
     if print_summary:
         print result.summary()
