@@ -35,12 +35,14 @@ def plot_size_change(df):
 
 
 def plot_residuals(df, columns):
-    model = mdl.train_model(df.iloc[0:500], columns=columns)
+    model = mdl.train_model(df.iloc[0:10000], dropped_columns=columns)
     residuals = model.outlier_test()['student_resid']
-    plt.scatter(model.fittedvalues, residuals, 'o')
+    plt.plot(model.fittedvalues, residuals, 'o')
     plt.axhline(0, color='r')
-    plt.xlabel('studentized residuals')
-    plt.ylabel('predicted response')
+    plt.xlabel('predicted response')
+    plt.ylabel('studentized residuals')
+    plt.show()
+    return model.fittedvalues, residuals
 
 if __name__ == '__main__':
     housing_data = create_date_cols('data/kc_house_data.csv')
@@ -49,4 +51,6 @@ if __name__ == '__main__':
     # plt.xlabel('Month')
     # plt.ylabel('Number of Sales')
     # plt.show()
-    plot_residuals(housing_data, ['sqft_lot', 'bathrooms'])
+    predicted, residuals = plot_residuals(housing_data, ['price', 'yr_renovated', 'zipcode',
+                                                         'lat', 'long', 'id', 'date', 'sqft_living15',
+                                                         'sqft_lot15', 'sqft_above', 'sqft_basement', 'floors', 'sqft_living', 'sqft_lot'])
