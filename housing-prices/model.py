@@ -9,6 +9,11 @@ def import_data(filename):
     return df
 
 
+def feature_engineer(df):
+    df['']
+    return df
+
+
 def dummify_variables(df, var_names):
     '''
     INPUT: pandas df from import_data fxn
@@ -38,5 +43,7 @@ def train_model(data, dropped_columns='sqft_lot', print_summary=False):
 
 
 if __name__ == '__main__':
+    dropped_columns = ['id', 'sqft_lot15',
+                       'sqft_living15', 'day', 'month', 'count']
     df = import_data('data/kc_house_data.csv')
-    model = train_model(df, columns=['sqft_living'], print_summary=True)
+    model = train_model(df, columns=dropped_columns, print_summary=True)
